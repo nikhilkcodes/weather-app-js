@@ -20,8 +20,7 @@ The Weather App is a simple web application that allows users to check the weath
 To run the Weather App locally, follow these steps:
 ## Clone the repository:
 
-   ```bash
-   git clone https://github.com/yourusername/weather-app-js.git
+  ` git clone https://github.com/nikhilcodes/weather-app-js.git `
 Open the index.html file in a web browser.
 
 Enter the name of a city in the search box and click the search button to get weather information.
