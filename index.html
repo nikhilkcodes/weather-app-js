@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Define metadata for the page -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather App javascript</title>
+    <!-- Link to external stylesheet for styling -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <!-- Weather card section -->
+    <div class="card">
+        <!-- Search input and button -->
+        <div class="search">
+            <input type="text" placeholder="enter city name" spellcheck="false">
+            <button><img src="images/search.png" alt=""></button>
+        </div>
+        <!-- Error message section -->
+        <div class="error">
+            <p>Invalid city</p>
+        </div>
+        <!-- Weather information section -->
+        <div class="Weather">
+            <!-- Weather icon -->
+            <img src="images/rain.png" class="Weather-icon">
+            <!-- Temperature display -->
+            <h1 class="temp">22°c</h1>
+            <!-- City name display -->
+            <h2 class="city">New york</h2>
+            <!-- Additional weather details -->
+            <div class="details">
+                <!-- Humidity section -->
+                <div class="col">
+                    <img src="images/humidity.png">
+                    <div>
+                        <p class="humidity">50%</p>
+                        <p>Humidity</p>
+                    </div>
+                </div>
+                <!-- Wind speed section -->
+                <div class="col">
+                    <img src="images/wind.png">
+                    <div>
+                        <p class="wind">15 km/h</p>
+                        <p>wind speed</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            // API key and URL for OpenWeatherMap API
+            const apikey = "1fbb5862ca36e772594480a835eff748";
+            const apiurl = "https://api.openweathermap.org/data/2.5/weather?units=metric&q=";
+
+            // Selectors for various elements on the page
+            const searchbox = document.querySelector(".search input");
+            const searchbtn = document.querySelector(".search button");
+            const weathericn = document.querySelector(".Weather-icon");
+
+            // Function to fetch and display weather data
+            async function checkweather(city) {
+                const response = await fetch(apiurl + city + `&appid=${apikey}`);
+                var data = await response.json();
+
+                console.log(data); // Log the retrieved data for debugging purposes
+
+                // Update various elements with fetched weather data
+                document.querySelector(".city").innerHTML = data.name;
+                document.querySelector(".temp").innerHTML = Math.round(data.main.temp) + "°c";
+                document.querySelector(".humidity").innerHTML = data.main.humidity + "%";
+                document.querySelector(".wind").innerHTML = data.wind.speed + "km/h";
+
+                // Update weather icon based on weather conditions
+                if (data.weather[0].main === "Clouds") {
+                    weathericn.src = "images/clouds.png";
+                } else if (data.weather[0].main === "Clear") {
+                    weathericn.src = "images/clear.png"; // Use the appropriate image for clear weather
+                } else if (data.weather[0].main === "Rain") {
+                    weathericn.src = "images/rain.png";
+                } else if (data.weather[0].main === "Drizzle") {
+                    weathericn.src = "images/drizzle.png";
+                } else if (data.weather[0].main === "Mist") {
+                    weathericn.src = "images/mist.png";
+                }
+            }
+
+            // Add event listener to the search button
+            searchbtn.addEventListener("click", () => {
+                checkweather(searchbox.value); // Fetch weather data for the entered city
+            })
+
+        </script>
+    </div>
+</body>
+
+</html>
